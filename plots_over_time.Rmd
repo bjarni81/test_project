@@ -12,9 +12,9 @@ library(stringr)
 #
 options(scipen = 999)
 #
-census_1790_1840 <- read_csv("/Users/bnbh_imac/Desktop/Census_project/C_1790_1840.csv")
-#adding to test revert
-state_fips_to_name <- readxl::read_xlsx("/Users/bnbh_imac/Desktop/Census_project/state_fips_to_name.xlsx")
+census_1790_1840 <- read_csv("/Users/bnbh_imac/Desktop/test_project/C_1790_1840.csv")
+#changes changes changes
+state_fips_to_name <- readxl::read_xlsx("/Users/bnbh_imac/Desktop/test_project/state_fips_to_name.xlsx")
 #--------
 ```
 
