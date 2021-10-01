@@ -6,7 +6,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
+                      fig.width = 10, fig.height = 10)
 library(tidyverse)
 library(stringr)
 #
@@ -16,9 +17,6 @@ census_1790_1840 <- read_csv("/Users/bnbh_imac/Desktop/test_project/C_1790_1840.
 #changes changes changes
 state_fips_to_name <- readxl::read_xlsx("/Users/bnbh_imac/Desktop/test_project/state_fips_to_name.xlsx")
 #--------
-```
-
-```{r}
 tot_pop <- census_1790_1840 %>%
   group_by(year) %>%
   summarise("Free" = sum(cntypopf, na.rm = T),
@@ -33,6 +31,8 @@ region_label <- census_1790_1840 %>%
   group_by(region) %>%
   summarise(label = paste0(stusps, collapse = ", "))
 ```
+
+# National  
 
 ```{r}
 tot_p1 <- tot_pop %>%
@@ -60,6 +60,8 @@ tot_p2 <- tot_pop %>%
 #
 gridExtra::grid.arrange(tot_p1, tot_p2, nrow = 1)
 ```
+
+# By Census Region  
 
 ```{r}
 region <- census_1790_1840 %>%
@@ -108,8 +110,11 @@ gridExtra::grid.arrange(region_p1, region_p2, nrow = 1)
 ```
 
 
+# By State  
+
+
 ```{r}
-census_1790_1840 %>%
+state_p1 <- census_1790_1840 %>%
   group_by(year, statefip) %>%
   summarise(`Free` = sum(cntypopf, na.rm = T),
             `Not Free` = sum(cntypops, na.rm = T),
@@ -128,7 +133,7 @@ census_1790_1840 %>%
        y = "Population") +
   theme(legend.title = element_blank())
 #
-census_1790_1840 %>%
+state_p2 <- census_1790_1840 %>%
   group_by(year, statefip) %>%
   summarise(free_pop = sum(cntypopf, na.rm = T),
             notFree_pop = sum(cntypops, na.rm = T),
@@ -147,4 +152,6 @@ census_1790_1840 %>%
         axis.title.y = element_blank(),
         axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0)) +
   facet_wrap(~stname)
+#==
+gridExtra::grid.arrange(state_p1, state_p2, nrow = 1)
 ```
