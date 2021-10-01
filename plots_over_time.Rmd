@@ -21,9 +21,9 @@ state_fips_to_name <- readxl::read_xlsx("/Users/bnbh_imac/Desktop/test_project/s
 ```{r}
 tot_pop <- census_1790_1840 %>%
   group_by(year) %>%
-  summarise(tot_free = sum(cntypopf, na.rm = T),
-            tot_notFree = sum(cntypops, na.rm = T),
-            tot_pop = tot_free + tot_notFree)
+  summarise("Free" = sum(cntypopf, na.rm = T),
+            "Not Free" = sum(cntypops, na.rm = T),
+            "Total" = `Free` + `Not Free`)
 #
 region_label <- census_1790_1840 %>%
   select(region, statefip) %>%
@@ -35,12 +35,30 @@ region_label <- census_1790_1840 %>%
 ```
 
 ```{r}
-tot_pop %>%
+tot_p1 <- tot_pop %>%
   pivot_longer(-year) %>%
   ggplot(data = .,
        aes(x = year, y = value, group = name, color = name)) +
   geom_line() +
-  scale_y_continuous(labels = scales::comma_format())
+  scale_y_continuous(labels = scales::comma_format()) +
+  labs(x = "Year", y = "Population") +
+  theme(legend.title = element_blank())
+#
+tot_p2 <- tot_pop %>%
+  mutate("Free" = `Free` / `Total`,
+         "Not Free" = `Not Free` / `Total`) %>%
+  select(year, `Free`, `Not Free`) %>%
+  pivot_longer(-year) %>%
+  ggplot(data = .,
+         aes(x = year, y = value, fill = name)) +
+  geom_col() +
+  ggsci::scale_fill_aaas() +
+  labs(y = "Proportion", x = "Year") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  theme(legend.title = element_blank(),
+        axis.title.y = element_blank())
+#
+gridExtra::grid.arrange(tot_p1, tot_p2, nrow = 1)
 ```
 
 ```{r}
