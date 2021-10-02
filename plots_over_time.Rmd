@@ -39,7 +39,7 @@ tot_p1 <- tot_pop %>%
   pivot_longer(-year) %>%
   ggplot(data = .,
        aes(x = year, y = value, group = name, color = name)) +
-  geom_line() +
+  geom_line() + geom_point() +
   scale_y_continuous(labels = scales::comma_format()) +
   labs(x = "Year", y = "Population") +
   theme(legend.title = element_blank())
@@ -76,7 +76,7 @@ region <- census_1790_1840 %>%
 
 region_p1 <- ggplot(data = region,
          aes(x = year, y = value, group = name, color = name)) +
-  geom_line() +
+  geom_line() + geom_point() +
   scale_y_continuous(labels = scales::comma_format()) +
   facet_wrap(~label) +
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0)) +
@@ -125,7 +125,7 @@ state_p1 <- census_1790_1840 %>%
   na_if(., 0) %>%
   ggplot(data = .,
          aes(x = year, y = value, color = name, group = name)) +
-  geom_line() +
+  geom_line() + geom_point(size = 0.5) +
   facet_wrap(~stname) +
   scale_y_continuous(labels = scales::comma_format()) +
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0)) +
