@@ -8,15 +8,17 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
                       fig.width = 10, fig.height = 10)
+# loading libraries
 library(tidyverse)
 library(here)
-#
+#setting options
 options(scipen = 999)
-#
+#reading census data
 census_1790_1840 <- read_csv("Input/C_1790_1840.csv")
-#changes changes changes
+#reading state FIPS to state name
 state_fips_to_name <- readxl::read_xlsx("Input/state_fips_to_name.xlsx")
 #--------
+#total population
 tot_pop <- census_1790_1840 %>%
   group_by(year) %>%
   summarise("Free" = sum(cntypopf, na.rm = T),
