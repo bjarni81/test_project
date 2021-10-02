@@ -9,13 +9,13 @@ output:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
                       fig.width = 10, fig.height = 10)
 library(tidyverse)
-library(stringr)
+library(here)
 #
 options(scipen = 999)
 #
-census_1790_1840 <- read_csv("/Users/bnbh_imac/Desktop/test_project/Input/C_1790_1840.csv")
+census_1790_1840 <- read_csv("Input/C_1790_1840.csv")
 #changes changes changes
-state_fips_to_name <- readxl::read_xlsx("/Users/bnbh_imac/Desktop/test_project/Input/state_fips_to_name.xlsx")
+state_fips_to_name <- readxl::read_xlsx("Input/state_fips_to_name.xlsx")
 #--------
 tot_pop <- census_1790_1840 %>%
   group_by(year) %>%
